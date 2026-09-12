@@ -21,9 +21,14 @@ build/bible-test: tests/BibleTest.HC include/HolyBible.HC $(HOLYC)
 	mkdir -p build
 	$(HOLYC) $< $(INCLUDES) -o $@
 
-test: build/engine-test build/bible-test build/slide-demo
+build/physics-test: tests/PhysicsTest.HC include/HolyPhysics.HC $(HOLYC)
+	mkdir -p build
+	$(HOLYC) $< $(INCLUDES) -o $@
+
+test: build/engine-test build/bible-test build/physics-test build/slide-demo
 	./build/engine-test
 	./build/bible-test
+	./build/physics-test
 	SDL_VIDEODRIVER=dummy ./build/slide-demo
 
 clean:

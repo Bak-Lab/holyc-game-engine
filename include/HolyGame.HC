@@ -37,6 +37,7 @@ typedef struct {
   I64 move_x;
   I64 move_y;
   Bool action;
+  Bool action_down;
   Bool start;
   Bool cancel;
   Bool gamepad_connected;
@@ -59,6 +60,8 @@ U0 HGInputPoll(HGInput *input, I64 movement_speed)
       GamepadAxis(HC_PAD_AXIS_LEFT_Y), HG_GAMEPAD_DEADZONE);
   Bool keyboard_action = KeyPressed(HC_KEY_SPACE);
   Bool gamepad_action = GamepadButtonPressed(HC_PAD_A);
+  Bool keyboard_action_down = KeyDown(HC_KEY_SPACE);
+  Bool gamepad_action_down = GamepadButtonDown(HC_PAD_A);
   Bool keyboard_start = KeyPressed(HC_KEY_ENTER);
   Bool gamepad_start = GamepadButtonPressed(HC_PAD_START);
   Bool keyboard_cancel = KeyPressed(HC_KEY_ESCAPE);
@@ -88,6 +91,7 @@ U0 HGInputPoll(HGInput *input, I64 movement_speed)
   input->move_x *= movement_speed;
   input->move_y *= movement_speed;
   input->action = keyboard_action || gamepad_action;
+  input->action_down = keyboard_action_down || gamepad_action_down;
   input->start = keyboard_start || gamepad_start;
   input->cancel = keyboard_cancel || gamepad_cancel || gamepad_back;
   input->gamepad_connected = GamepadConnected();

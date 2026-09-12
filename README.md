@@ -20,7 +20,31 @@ Linux `-I` option.
 - Move-toward and follower helpers
 - Basic actor rendering through HolyC Linux graphics primitives
 - Unified keyboard, D-pad, and analog-stick input
+- Projectile gravity, velocity, bounce, friction, and world bounds
+- Swept circle-versus-rectangle collision and destructible objects
 - Optional biblical content pack with characters, angels, and curated verses
+
+## Projectile physics
+
+`include/HolyPhysics.HC` provides a small deterministic 2D physics layer for
+slingshots, thrown objects, arcade projectiles, and destructible scenery:
+
+```c
+HGPhysicsWorld physics;
+HGPhysicsBody *stone;
+
+HGPhysicsWorldInit(&physics, 0, 640, 440, 0.42);
+HGPhysicsAddCollider(
+    &physics, 420, 300, 20, 120, 18, HG_MATERIAL_WOOD, 1);
+stone = HGPhysicsLaunch(
+    &physics, 80, 340, 12, -9, 4, 1, 0.55, 0.12, 1);
+
+HGPhysicsStep(&physics, 1);
+```
+
+Fast bodies are split into smaller simulation steps to prevent tunneling.
+Collider durability is reduced by mass-weighted impact speed, allowing games
+to implement wood, stone, armor, weak points, and collapsing structures.
 
 ## Input
 
@@ -71,7 +95,7 @@ const HBVerse *courage = HBFindVerse("JOS", 1, 9);
 
 ## Requirements
 
-- HolyC Linux commit `52c25c2` or newer
+- HolyC Linux commit `7226999` or newer
 - Clang
 - SDL2 development files
 

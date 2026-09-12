@@ -248,6 +248,10 @@ static const HBVerse hb_verses[] = {
      "Now faith is assurance of things hoped for, proof of things not seen."},
     {"REV", 21, 4, "hope",
      "He will wipe away every tear from their eyes. Death will be no more; neither will there be mourning, nor crying, nor pain any more. The first things have passed away.”"},
+    {"1SA", 17, 47, "deliverance",
+     "and that all this assembly may know that the LORD doesn’t save with sword and spear; for the battle is the LORD’s, and he will give you into our hand.”"},
+    {"1SA", 17, 49, "victory",
+     "David put his hand in his bag, took a stone and slung it, and struck the Philistine in his forehead. The stone sank into his forehead, and he fell on his face to the earth."},
 };
 
 I64 HBEntityCount()
