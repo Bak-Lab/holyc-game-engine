@@ -5,6 +5,7 @@
 #define HG_HIT_NONE 0
 #define HG_HIT_X 1
 #define HG_HIT_Y 2
+#define HG_GAMEPAD_DEADZONE 12000
 
 typedef struct {
   I64 x;
@@ -31,6 +32,66 @@ typedef struct {
   I64 wall_count;
   HGRect bounds;
 } HGWorld;
+
+typedef struct {
+  I64 move_x;
+  I64 move_y;
+  Bool action;
+  Bool start;
+  Bool cancel;
+  Bool gamepad_connected;
+} HGInput;
+
+I64 HGAxisDirection(I64 value, I64 deadzone)
+{
+  if (value < -deadzone)
+    return -1;
+  if (value > deadzone)
+    return 1;
+  return 0;
+}
+
+U0 HGInputPoll(HGInput *input, I64 movement_speed)
+{
+  I64 pad_x = HGAxisDirection(
+      GamepadAxis(HC_PAD_AXIS_LEFT_X), HG_GAMEPAD_DEADZONE);
+  I64 pad_y = HGAxisDirection(
+      GamepadAxis(HC_PAD_AXIS_LEFT_Y), HG_GAMEPAD_DEADZONE);
+  Bool keyboard_action = KeyPressed(HC_KEY_SPACE);
+  Bool gamepad_action = GamepadButtonPressed(HC_PAD_A);
+  Bool keyboard_start = KeyPressed(HC_KEY_ENTER);
+  Bool gamepad_start = GamepadButtonPressed(HC_PAD_START);
+  Bool keyboard_cancel = KeyPressed(HC_KEY_ESCAPE);
+  Bool gamepad_cancel = GamepadButtonPressed(HC_PAD_B);
+  Bool gamepad_back = GamepadButtonPressed(HC_PAD_BACK);
+
+  if (GamepadButtonDown(HC_PAD_DPAD_LEFT))
+    pad_x = -1;
+  if (GamepadButtonDown(HC_PAD_DPAD_RIGHT))
+    pad_x = 1;
+  if (GamepadButtonDown(HC_PAD_DPAD_UP))
+    pad_y = -1;
+  if (GamepadButtonDown(HC_PAD_DPAD_DOWN))
+    pad_y = 1;
+
+  input->move_x =
+      ((KeyDown(HC_KEY_RIGHT) ? 1 : 0) -
+       (KeyDown(HC_KEY_LEFT) ? 1 : 0));
+  input->move_y =
+      ((KeyDown(HC_KEY_DOWN) ? 1 : 0) -
+       (KeyDown(HC_KEY_UP) ? 1 : 0));
+  if (input->move_x == 0)
+    input->move_x = pad_x;
+  if (input->move_y == 0)
+    input->move_y = pad_y;
+
+  input->move_x *= movement_speed;
+  input->move_y *= movement_speed;
+  input->action = keyboard_action || gamepad_action;
+  input->start = keyboard_start || gamepad_start;
+  input->cancel = keyboard_cancel || gamepad_cancel || gamepad_back;
+  input->gamepad_connected = GamepadConnected();
+}
 
 U0 HGActorInit(HGActor *actor, I64 x, I64 y, I64 width, I64 height)
 {

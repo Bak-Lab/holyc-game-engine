@@ -41,6 +41,12 @@ U0 Main()
           "world bounds must contain actor");
   Require(collision == (HG_HIT_X | HG_HIT_Y),
           "world-bound collisions must be reported");
+  Require(HGAxisDirection(11999, 12000) == 0,
+          "axis values inside deadzone must be neutral");
+  Require(HGAxisDirection(-12001, 12000) == -1,
+          "negative axis direction must be detected");
+  Require(HGAxisDirection(12001, 12000) == 1,
+          "positive axis direction must be detected");
 
   printf("HolyGame engine tests passed\n");
 }

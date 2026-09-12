@@ -19,7 +19,29 @@ Linux `-I` option.
 - Axis-separated collision response for natural wall sliding
 - Move-toward and follower helpers
 - Basic actor rendering through HolyC Linux graphics primitives
+- Unified keyboard, D-pad, and analog-stick input
 - Optional biblical content pack with characters, angels, and curated verses
+
+## Input
+
+`HGInputPoll` combines keyboard and gamepad input into one state:
+
+```c
+HGInput input;
+
+HGInputPoll(&input, 3);
+HGMoveAndSlide(&player, input.move_x, input.move_y, &world);
+```
+
+| Action | Keyboard | Gamepad |
+|---|---|---|
+| Move | Arrows or WASD | D-pad or left stick |
+| Action | Space | A / Cross |
+| Start | Enter | Start / Options |
+| Cancel | Escape | B / Circle or Back |
+
+Controllers are detected at startup and may be connected or removed while a
+game is running. Analog sticks use a default deadzone of 12,000.
 
 ## Biblical content pack
 
@@ -49,7 +71,7 @@ const HBVerse *courage = HBFindVerse("JOS", 1, 9);
 
 ## Requirements
 
-- HolyC Linux commit `f0199d3` or newer
+- HolyC Linux commit `52c25c2` or newer
 - Clang
 - SDL2 development files
 

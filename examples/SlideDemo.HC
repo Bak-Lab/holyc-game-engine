@@ -5,6 +5,7 @@ U0 Main()
   CDC *dc = DCAlias;
   HGWorld world;
   HGActor actor;
+  HGInput input;
   I64 frame;
 
   HGWorldInit(&world, 0, 0, 640, 480);
@@ -12,13 +13,19 @@ U0 Main()
   HGActorInit(&actor, 220, 180, 14, 18);
 
   for (frame = 0; frame < 160; frame++) {
-    HGMoveAndSlide(&actor, 2, 1, &world);
+    HGInputPoll(&input, 3);
+    if (input.cancel)
+      break;
+    if (input.move_x || input.move_y)
+      HGMoveAndSlide(&actor, input.move_x, input.move_y, &world);
+    else
+      HGMoveAndSlide(&actor, 2, 1, &world);
     dc->color = BLUE;
     DCFill(dc);
     dc->color = LTGRAY;
     GrRect(dc, 300, 80, 24, 320);
     HGDrawActor(dc, &actor, YELLOW);
-    GrText(dc, 16, 16, "MOVE AND SLIDE");
+    GrText(dc, 16, 16, "ARROWS / WASD / GAMEPAD");
     Sleep(4);
   }
 
