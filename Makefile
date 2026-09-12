@@ -17,8 +17,13 @@ build/engine-test: tests/EngineTest.HC include/HolyGame.HC $(HOLYC)
 	mkdir -p build
 	$(HOLYC) $< $(INCLUDES) -o $@
 
-test: build/engine-test build/slide-demo
+build/bible-test: tests/BibleTest.HC include/HolyBible.HC $(HOLYC)
+	mkdir -p build
+	$(HOLYC) $< $(INCLUDES) -o $@
+
+test: build/engine-test build/bible-test build/slide-demo
 	./build/engine-test
+	./build/bible-test
 	SDL_VIDEODRIVER=dummy ./build/slide-demo
 
 clean:

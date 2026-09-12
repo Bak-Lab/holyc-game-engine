@@ -19,6 +19,33 @@ Linux `-I` option.
 - Axis-separated collision response for natural wall sliding
 - Move-toward and follower helpers
 - Basic actor rendering through HolyC Linux graphics primitives
+- Optional biblical content pack with characters, angels, and curated verses
+
+## Biblical content pack
+
+`include/HolyBible.HC` provides structured content for biblical games:
+
+- A curated roster of major figures from the 66-book Protestant canon
+- God, Jesus Christ, and the Holy Spirit represented as divine entities
+- Named angels Gabriel, Michael, and Abaddon (Apollyon)
+- The Angel of Yahweh, cherubim, seraphim, and the heavenly host
+- First-reference, testament, role, and entity-kind metadata
+- Curated public-domain World English Bible verses with gameplay themes
+- Lookup and iteration APIs for entities and verses
+
+Only angel names and roles explicit in the selected canon are included.
+Later traditional names and hierarchies are intentionally excluded. See
+[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) for verse provenance.
+
+Include the module independently or alongside the game engine:
+
+```c
+#include "HolyGame.HC"
+#include "HolyBible.HC"
+
+const HBEntity *moses = HBFindEntity("moses");
+const HBVerse *courage = HBFindVerse("JOS", 1, 9);
+```
 
 ## Requirements
 
