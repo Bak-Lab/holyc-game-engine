@@ -101,6 +101,8 @@ static const HBEntity hb_entities[] = {
      HB_OLD_TESTAMENT, HB_KIND_PERSON},
     {"jonathan", "Jonathan", "Son of Saul and friend of David", "1SA", 13, 2,
      HB_OLD_TESTAMENT, HB_KIND_PERSON},
+    {"goliath", "Goliath", "Philistine champion", "1SA", 17, 4,
+     HB_OLD_TESTAMENT, HB_KIND_PERSON},
     {"bathsheba", "Bathsheba", "Mother of Solomon", "2SA", 11, 3,
      HB_OLD_TESTAMENT, HB_KIND_PERSON},
     {"solomon", "Solomon", "King known for wisdom", "2SA", 12, 24,

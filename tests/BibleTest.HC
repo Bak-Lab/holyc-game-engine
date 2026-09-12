@@ -14,6 +14,7 @@ U0 Main()
 {
   const HBEntity *moses = HBFindEntity("moses");
   const HBEntity *jesus = HBFindEntity("jesus");
+  const HBEntity *goliath = HBFindEntity("goliath");
   const HBEntity *gabriel = HBFindEntity("gabriel");
   const HBEntity *michael = HBFindEntity("michael");
   const HBVerse *verse = HBFindVerse("JHN", 3, 16);
@@ -26,6 +27,8 @@ U0 Main()
           "Moses lookup failed");
   Require(jesus && jesus->kind == HB_KIND_DIVINE,
           "Jesus lookup failed");
+  Require(goliath && strcmp(goliath->first_book, "1SA") == 0,
+          "Goliath lookup failed");
   Require(HBIsAngelic(gabriel), "Gabriel must be classified as angelic");
   Require(HBIsAngelic(michael), "Michael must be classified as angelic");
   Require(!HBFindEntity("raphael"),
